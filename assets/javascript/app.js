@@ -2,43 +2,75 @@
 $(document).ready(function () {
     //We have questions with four answer choices and only one correct answer
     var questionsArray = [{
-        question: "Which of the following is not the name of one of Batman's many sidekicks to wear the Robin suit?",
+        question: "Boy do I wonder, who never wore the mask of the Boy Wonder (Robin)?",
         a: "Dick Grayson",
         b: "Damian Wayne",
         c: "Tim Drake",
         answer: "Jacob Todd"
     }, {
-        question: "Which of the following actors has never played Batman?",
+        question: "Four men who act, only three played The Bat. Which actor did not?",
         a: "Michael Keaton",
         b: "Christian Bale",
         c: "Adam West",
         answer: "Keanu Reeves"
     }, {
-        question: "What is the name of the asylum where many of Batman's villains have been brought as patients?",
+        question: "When Batman defeats a foe, where do the most twisted ones go?",
         a: "Gotham Asylum",
         b: "Wayne Asylum",
         c: "Darkwing Asylum",
         answer: "Arkham Asylum"
     }, {
-        question: "Who were Batman's Parent's?",
+        question: "Everyone knows the tragic fate of the Waynes, but do you remember the parents' names?",
         a: "George and Elaine Wayne",
         b: "Howard and Maria Wayne",
         c: "Harvey and Rachel Wayne",
         answer: "Thomas and Martha Wayne"
-    }, {
-        question: "Which cartoon has Batman had multiple crossover appearances with?",
-        a: "Looney Toons",
-        b: "Teenage Mutant Ninja Turtles",
-        c: "Sherlock Holmes",
-        answer: "Scooby Doo"
     }];
 
     console.log(questionsArray);
     //We have counters for correct and incorrect answers and questions not answered
+    var totalCorrect = 0;
+    console.log("Correct Answers: " + totalCorrect);
+    var totalIncorrect = 0;
+    console.log("Incorrect Answers: " + totalIncorrect);
+    var totalNotAnswered = 4;
+    console.log("Not Answered: " + totalNotAnswered);
     //We have a counter for questions left set to length of questions array
+    var questionsLeft = questionsArray.length;
+    console.log("Questions Remaining: " + questionsLeft);
     //We set a boolean variable to prevent a reset until the game is over
+    var isBeingPlayed = false;
+    console.log("Are we playing the game? " + isBeingPlayed);
     //If questions left is greater than 0, keep playing. Else, end the game
     //The game begins when the start button is clicked
+    $("#startButton").click(function () {
+        isBeingPlayed = true;
+        console.log("Are we playing the game? " + isBeingPlayed);
+        //Function used to get a question from our array
+        function getQuestion(x) {
+            $(".gameBox").empty();
+            $(".gameBox").append(`
+            <div class="question">
+                <h2>${questionsArray[x].question}</h2>
+            </div>
+            <div class="options">
+                <button>${questionsArray[x].a}</button>
+                <button>${questionsArray[x].b}</button>
+                <button>${questionsArray[x].c}</button>
+                <button>${questionsArray[x].answer}</button>
+            </div>
+            `);
+        }
+        getQuestion(0);
+        $(".options button").click(function() {
+            if ($(this).text() === questionsArray[0].answer) {
+                totalCorrect++
+                console.log("Correct Answers: " + totalCorrect);
+                getQuestion(1);
+            }
+        });
+
+    });
     //A timer and the question with answer choices is displayed in the game box
     //The timer starts counting down from 15 seconds
     //If the player selects the correct answer within the time limit
