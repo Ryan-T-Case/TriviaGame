@@ -47,6 +47,14 @@ var grabbedQuestion;
 //Hide the Score Box Until the Game Starts
 $(".scoreBox").hide();
 
+//Audio Variables
+var batmanTheme = new Audio("assets/audio/batman-theme.mp3");
+batmanTheme.loop = true;
+var buttonClick = new Audio("assets/audio/button-click.mp3");
+var batmanSuccess = new Audio("assets/audio/batman-success.mp3");
+batmanSuccess.loop = true;
+var riddlerSuccess = new Audio("assets/audio/riddler-theme.mp3");
+riddlerSuccess.loop = true;
 //Global Variables for the Timer
 
 //We establish a variable that will act as a counter that will be decremented on countdown
@@ -93,6 +101,7 @@ function getQuestion() {
         startCountdown();
         //Conditions for Right and Wrong Responses 
         $(".options button").click(function () {
+            buttonClick.play();
             //If the player selects the correct answer within the time limit
             if ($(this).text() === grabbedQuestion.answer) {
                 correctAnswer();
@@ -109,6 +118,9 @@ function getQuestion() {
         $(".gameBox").empty();
         //Display Quiz Over Message Depending on Player's Performance
         if (totalCorrect >= 3) {
+            batmanTheme.pause();
+            batmanTheme.currentTime = 0;
+            batmanSuccess.play();
             $(".gameBox").append(`
             <h2 class="text-center">Blast! You've cracked my Quiz!</h2>
             <h2 class="text-center">I think I know who Batman's secret identity is!</h2>
@@ -123,6 +135,9 @@ function getQuestion() {
                 location.reload();
             });
         } else {
+            batmanTheme.pause();
+            batmanTheme.currentTime = 0;
+            riddlerSuccess.play();
             $(".gameBox").append(`
             <h2 class="text-center">I, the Riddler, have won, there's nothing you can do!</h2>
             <h2 class="text-center">Would have expected more from a Batman fan like you!</h2>
@@ -277,22 +292,13 @@ $(document).ready(function () {
     //If questions left is greater than 0, keep playing. Else, end the game
     //The game begins when the start button is clicked
     $("#startButton").click(function () {
+        buttonClick.play();
         isBeingPlayed = true;
         console.log("Are we playing the game? " + isBeingPlayed);
+        //Play game audio
+        batmanTheme.play();
         //Show the score box now that the game has started
         $(".scoreBox").show();
         getQuestion();
     });
-    //A timer and the question with answer choices is displayed in the game box
-    //The timer starts counting down from 10 seconds
-    //If the player fails to select an answer within the time limit
-    //Display times up screen with correct answer shown
-    //Total not answered questions increases in the score box
-    //Screen is displayed for 5 seconds and then next question is displayed
-    //When the final question is answered
-    //Display results screen that logs to total scores from the score box
-    //If Correct answers is 75% or better, congratulate player
-    //If Correct answers is between 50% and 75%, tell the player to improve
-    //Else acknowledge the player failed and urge to try again
-    //Display button that will start the game over when clicked if game is over
 });
