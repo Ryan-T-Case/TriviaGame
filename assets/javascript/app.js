@@ -33,7 +33,7 @@ var totalCorrect = 0;
 console.log("Correct Answers: " + totalCorrect);
 var totalIncorrect = 0;
 console.log("Incorrect Answers: " + totalIncorrect);
-var totalNotAnswered = 4;
+var totalNotAnswered = 0;
 console.log("Not Answered: " + totalNotAnswered);
 //We have a counter for questions left set to length of questions array
 var questionsLeft = 4;
@@ -44,6 +44,18 @@ console.log("Are we playing the game? " + isBeingPlayed);
 //We declare a variable on the global scope to be manipulated in our getQuestion function
 var grabbedQuestion;
 
+//Hide the Score Box Until the Game Starts
+$(".scoreBox").hide();
+
+//Global Variables for the Timer
+
+//We establish a variable that will act as a counter that will be decremented on countdown
+var timeCounter = 15;
+//We declare a variable that will hold the setInterval that runs the timer
+var intervalId;
+//We set this variable to false to prevent the timer from being sped up
+var timeRunning = false;
+
 //Global Functions
 
 //Function used to get a question from our array
@@ -52,6 +64,8 @@ function getQuestion() {
     grabbedQuestion = questionsArray.shift();
     console.log(grabbedQuestion);
     $(".gameBox").append(`
+    <div class="timer">
+    </div>
     <div class="question">
         <h2>${grabbedQuestion.question}</h2>
     </div>
@@ -71,6 +85,7 @@ function getQuestion() {
     questionsLeft--;
     console.log("Questions Remaining: " + questionsLeft);
     console.log(questionsArray);
+    startCountdown();
     //Conditions for Right and Wrong Responses 
     $(".options button").click(function () {
         //If the player selects the correct answer within the time limit
@@ -98,6 +113,54 @@ function getQuestion() {
     });
 }
 
+//Function used to set interval
+function startCountdown() {
+    //Clear any previously running countdowns before starting another
+    clearInterval(intervalId);
+    //If the timer is not running
+    if (!timeRunning) {
+    //Run the countdown function every second
+    intervalId = setInterval(timerCountdown, 1000);
+    //Set the timer to running
+    timeRunning = true;
+    }
+}
+
+//The timer's countdown function
+function timerCountdown() {
+    //Decreases time left on counter by one
+    console.log(timeCounter);
+    $(".timer").html("<h2>" + "Time Remaining: " + timeCounter + "</h2>");
+    timeCounter--;
+    //Once the timer has reached 0
+    if (timeCounter === 0) {
+        //Run the timesUp function
+        timesUp();
+    }
+}
+
+//The timer's function for when time runs out
+function timesUp() {
+    //Stop the timer from counting down past zero
+    clearInterval(intervalId);
+    //Clear the current question from the gamebox
+    $(".gameBox").empty();
+    //Display the times up message
+    $(".gameBox").append("<h2>" + "Times Up!" + "</h2>");
+    //Log question as not answered...
+    totalNotAnswered++;
+    //...And display it in the Score Box
+    $("#notAnsweredCounter").text(totalNotAnswered);
+    //Set timer to not running
+    timeRunning = false;
+    //Reset the timer
+    timeCounter = 15;
+    //Move on to the next question after 10 seconds
+    var messageTimeout = setTimeout(function() {
+        getQuestion();
+    }, 1000 * 10);
+}
+
 //The game won't run until the document is ready
 $(document).ready(function () {
     //If questions left is greater than 0, keep playing. Else, end the game
@@ -105,6 +168,8 @@ $(document).ready(function () {
     $("#startButton").click(function () {
         isBeingPlayed = true;
         console.log("Are we playing the game? " + isBeingPlayed);
+        //Show the score box now that the game has started
+        $(".scoreBox").show();
         getQuestion();
     });
     //A timer and the question with answer choices is displayed in the game box
