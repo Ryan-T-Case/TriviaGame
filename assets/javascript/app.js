@@ -50,7 +50,7 @@ $(".scoreBox").hide();
 //Global Variables for the Timer
 
 //We establish a variable that will act as a counter that will be decremented on countdown
-var timeCounter = 15;
+var timeCounter = 10;
 //We declare a variable that will hold the setInterval that runs the timer
 var intervalId;
 //We set this variable to false to prevent the timer from being sped up
@@ -65,24 +65,28 @@ function getQuestion() {
         grabbedQuestion = questionsArray.shift();
         console.log(grabbedQuestion);
         $(".gameBox").append(`
-    <div class="timer">
+    <div class="text-center timer">
+        <h2>Time Remaining: </h2> 
     </div>
-    <div class="question">
+    <div class="text-center mb-4 question">
         <h2>${grabbedQuestion.question}</h2>
     </div>
-    <div class="options">
-    <button type="button" class="btn btn-outline-dark">${grabbedQuestion.a}</button>
-    </div>
-    <div class="options">
-    <button type="button" class="btn btn-outline-dark">${grabbedQuestion.b}</button>
-    </div>
-    <div class="options">
-    <button type="button" class="btn btn-outline-dark">${grabbedQuestion.c}</button>
-    </div>
-    <div class="options">
-    <button type="button" class="btn btn-outline-dark">${grabbedQuestion.answer}</button>
+    <div class="row options">
+        <div class="col-md-12 text-center mb-4">
+        <button type="button" class="btn btn-lg btn-outline-dark">${grabbedQuestion.a}</button>
+        </div>
+        <div class="col-md-12 text-center mb-4">
+        <button type="button" class="btn btn-lg btn-outline-dark">${grabbedQuestion.b}</button>
+        </div>
+        <div class="col-md-12 text-center mb-4">
+        <button type="button" class="btn btn-lg btn-outline-dark">${grabbedQuestion.c}</button>
+        </div>
+        <div class="col-md-12 text-center mb-4">
+        <button type="button" class="btn btn-lg btn-outline-dark">${grabbedQuestion.answer}</button>
+        </div>
     </div>
     `);
+        shuffleChoices();
         questionsLeft--;
         console.log("Questions Remaining: " + questionsLeft);
         console.log(questionsArray);
@@ -142,18 +146,25 @@ function correctAnswer() {
     //Set timer to not running
     timeRunning = false;
     //Reset the timer
-    timeCounter = 15;
+    timeCounter = 10;
     //Clear the game box
     $(".gameBox").empty();
     //Change screen to success screen congratulating the player
-    $(".gameBox").append("<h2>" + "You're Right!" + "</h2>");
+    $(".gameBox").append(`
+    <h2 class="text-center">Curses, You're Right!</h2>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="assets/images/right-answer.gif" class="img-fluid" alt="Right Answer Batman">
+        </div>
+    </div>
+    `);
     //Total correct answers increases in score box
     totalCorrect++;
     $("#correctCounter").text(totalCorrect);
     //Proceed to next question after 5 seconds
     var correctMessageTimeout = setTimeout(function () {
         getQuestion();
-    }, 1000 * 5);
+    }, 1000 * 10);
 }
 //Function for Incorrect Answers
 function incorrectAnswer() {
@@ -162,18 +173,41 @@ function incorrectAnswer() {
     //Set timer to not running
     timeRunning = false;
     //Reset the timer
-    timeCounter = 15;
+    timeCounter = 10;
     //Clear the game box
     $(".gameBox").empty();
     //Change screen to success screen congratulating the player
-    $(".gameBox").append("<h2>" + "You're Wrong!" + "</h2>");
+    $(".gameBox").append(`
+    <h2 class="text-center">You Fool! You Answered Wrong!</h2>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="assets/images/wrong-answer.gif" class="img-fluid" alt="Wrong Answer Riddler">
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12 text-center">
+            <h3>The Correct Answer Was: ${grabbedQuestion.answer}</h3>
+        </div>
+    </div>
+    `);
     //Total correct answers increases in score box
     totalIncorrect++;
     $("#incorrectCounter").text(totalIncorrect);
     //Proceed to next question after 5 seconds
     var incorrectMessageTimeout = setTimeout(function () {
         getQuestion();
-    }, 1000 * 5);
+    }, 1000 * 10);
+}
+
+//Function to Shuffle Order of Answer Choices
+function shuffleChoices() {
+    //Grabs first element in the DOM with the options class
+    var options = document.querySelector(".options")
+    //The duration of our loop is based on the amount of children the element has
+    for (var i = options.children.length; i >= 0; i--) {
+        //Pick a random child and append it to it's parent element
+        options.appendChild(options.children[Math.random() * i | 0]);
+    }
 }
 
 //Timer Functions
@@ -211,7 +245,19 @@ function timesUp() {
     //Clear the current question from the gamebox
     $(".gameBox").empty();
     //Display the times up message
-    $(".gameBox").append("<h2>" + "Times Up!" + "</h2>");
+    $(".gameBox").append(`
+    <h2 class="text-center">Time's Up! But Don't Worry, Things are Looking Up!</h2>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="assets/images/times-up.gif" class="img-fluid" alt="Times Up Riddler">
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12 text-center">
+            <h3>The Correct Answer Was: ${grabbedQuestion.answer}</h3>
+        </div>
+    </div>
+    `);
     //Log question as not answered...
     totalNotAnswered++;
     //...And display it in the Score Box
@@ -219,11 +265,11 @@ function timesUp() {
     //Set timer to not running
     timeRunning = false;
     //Reset the timer
-    timeCounter = 15;
+    timeCounter = 10;
     //Move on to the next question after 5 seconds
     var timesUpMessageTimeout = setTimeout(function () {
         getQuestion();
-    }, 1000 * 5);
+    }, 1000 * 10);
 }
 
 //The game won't run until the document is ready
@@ -238,7 +284,7 @@ $(document).ready(function () {
         getQuestion();
     });
     //A timer and the question with answer choices is displayed in the game box
-    //The timer starts counting down from 15 seconds
+    //The timer starts counting down from 10 seconds
     //If the player fails to select an answer within the time limit
     //Display times up screen with correct answer shown
     //Total not answered questions increases in the score box
