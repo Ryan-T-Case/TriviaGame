@@ -25,6 +25,42 @@ var questionsArray = [{
     b: "Howard and Maria Wayne",
     c: "Harvey and Rachel Wayne",
     answer: "Thomas and Martha Wayne"
+}, {
+    question: "What alias would you presume, that when working undercover, Batman would assume?",
+    a: "Edward Nigma",
+    b: "Joe Chill",
+    c: "Carmine Falcone",
+    answer: "Matches Malone"
+}, {
+    question: "Which weapon is one that many have used, but never by Batman, who has refused?",
+    a: "Grenades",
+    b: "Brass Knuckles",
+    c: "Mines",
+    answer: "Guns"
+}, {
+    question: "Will you get this correct? Probably not! Who is the first villain Batman ever fought?",
+    a: "The Joker",
+    b: "Professor Hugo Strange",
+    c: "Scarecrow",
+    answer: "Doctor Death"
+},{
+    question: "Batman has a canine partner that he cannot replace. What is the breed of this dog named Ace?",
+    a: "Rottweiler",
+    b: "Great Dane",
+    c: "Husky",
+    answer: "German Shepard"
+},{
+    question: "Who is the Butler on whom Batman can depend, who is also his guardian and beloved friend?",
+    a: "Alfred Hitchcock",
+    b: "Alfred Tennyson",
+    c: "Alfred Binet",
+    answer: "Alfred Pennyworth"
+},{
+    question: "One of these nicknames does not belong. If you called Batman by this name, you would be wrong.",
+    a: "The Caped Crusader",
+    b: "The Dark Knight",
+    c: "The World's Greatest Detective",
+    answer: "The Sultan of Swat"
 }];
 
 console.log(questionsArray);
@@ -36,7 +72,7 @@ console.log("Incorrect Answers: " + totalIncorrect);
 var totalNotAnswered = 0;
 console.log("Not Answered: " + totalNotAnswered);
 //We have a counter for questions left set to length of questions array
-var questionsLeft = 4;
+var questionsLeft = 10;
 console.log("Questions Remaining: " + questionsLeft);
 //We set a boolean variable to prevent a reset until the game is over
 var isBeingPlayed = false;
@@ -58,7 +94,7 @@ riddlerSuccess.loop = true;
 //Global Variables for the Timer
 
 //We establish a variable that will act as a counter that will be decremented on countdown
-var timeCounter = 10;
+var timeCounter = 15;
 //We declare a variable that will hold the setInterval that runs the timer
 var intervalId;
 //We set this variable to false to prevent the timer from being sped up
@@ -117,7 +153,7 @@ function getQuestion() {
         //Clear the game box
         $(".gameBox").empty();
         //Display Quiz Over Message Depending on Player's Performance
-        if (totalCorrect >= 3) {
+        if (totalCorrect >= 7) {
             batmanTheme.pause();
             batmanTheme.currentTime = 0;
             batmanSuccess.play();
@@ -161,7 +197,7 @@ function correctAnswer() {
     //Set timer to not running
     timeRunning = false;
     //Reset the timer
-    timeCounter = 10;
+    timeCounter = 15;
     //Clear the game box
     $(".gameBox").empty();
     //Change screen to success screen congratulating the player
@@ -176,7 +212,7 @@ function correctAnswer() {
     //Total correct answers increases in score box
     totalCorrect++;
     $("#correctCounter").text(totalCorrect);
-    //Proceed to next question after 5 seconds
+    //Proceed to next question after 10 seconds
     var correctMessageTimeout = setTimeout(function () {
         getQuestion();
     }, 1000 * 10);
@@ -188,7 +224,7 @@ function incorrectAnswer() {
     //Set timer to not running
     timeRunning = false;
     //Reset the timer
-    timeCounter = 10;
+    timeCounter = 15;
     //Clear the game box
     $(".gameBox").empty();
     //Change screen to success screen congratulating the player
@@ -208,7 +244,7 @@ function incorrectAnswer() {
     //Total correct answers increases in score box
     totalIncorrect++;
     $("#incorrectCounter").text(totalIncorrect);
-    //Proceed to next question after 5 seconds
+    //Proceed to next question after 10 seconds
     var incorrectMessageTimeout = setTimeout(function () {
         getQuestion();
     }, 1000 * 10);
@@ -280,8 +316,8 @@ function timesUp() {
     //Set timer to not running
     timeRunning = false;
     //Reset the timer
-    timeCounter = 10;
-    //Move on to the next question after 5 seconds
+    timeCounter = 15;
+    //Move on to the next question after 10 seconds
     var timesUpMessageTimeout = setTimeout(function () {
         getQuestion();
     }, 1000 * 10);
