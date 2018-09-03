@@ -60,58 +60,123 @@ var timeRunning = false;
 
 //Function used to get a question from our array
 function getQuestion() {
-    $(".gameBox").empty();
-    grabbedQuestion = questionsArray.shift();
-    console.log(grabbedQuestion);
-    $(".gameBox").append(`
+    if (questionsLeft > 0) {
+        $(".gameBox").empty();
+        grabbedQuestion = questionsArray.shift();
+        console.log(grabbedQuestion);
+        $(".gameBox").append(`
     <div class="timer">
     </div>
     <div class="question">
         <h2>${grabbedQuestion.question}</h2>
     </div>
     <div class="options">
-        <button>${grabbedQuestion.a}</button>
+    <button type="button" class="btn btn-outline-dark">${grabbedQuestion.a}</button>
     </div>
     <div class="options">
-        <button>${grabbedQuestion.b}</button>
+    <button type="button" class="btn btn-outline-dark">${grabbedQuestion.b}</button>
     </div>
     <div class="options">
-        <button>${grabbedQuestion.c}</button>
+    <button type="button" class="btn btn-outline-dark">${grabbedQuestion.c}</button>
     </div>
     <div class="options">
-        <button>${grabbedQuestion.answer}</button>
+    <button type="button" class="btn btn-outline-dark">${grabbedQuestion.answer}</button>
     </div>
     `);
-    questionsLeft--;
-    console.log("Questions Remaining: " + questionsLeft);
-    console.log(questionsArray);
-    startCountdown();
-    //Conditions for Right and Wrong Responses 
-    $(".options button").click(function () {
-        //If the player selects the correct answer within the time limit
-        if ($(this).text() === grabbedQuestion.answer) {
-            //Change screen to success screen congratulating the player
-            alert("Right!");
-            //Total correct answers increases in score box
-            //Screen is displayed for 5 seconds and then next question is displayed
-            totalCorrect++;
-            $("#correctCounter").text(totalCorrect);
-            //Proceed to next question
-            getQuestion();
+        questionsLeft--;
+        console.log("Questions Remaining: " + questionsLeft);
+        console.log(questionsArray);
+        startCountdown();
+        //Conditions for Right and Wrong Responses 
+        $(".options button").click(function () {
+            //If the player selects the correct answer within the time limit
+            if ($(this).text() === grabbedQuestion.answer) {
+                correctAnswer();
+            }
+            //If the player selects incorrect answer within the time limit
+            else {
+                incorrectAnswer();
+            }
+        });
+    } else {
+        //Stop any running countdowns
+        clearInterval(intervalId);
+        //Clear the game box
+        $(".gameBox").empty();
+        //Display Quiz Over Message Depending on Player's Performance
+        if (totalCorrect >= 3) {
+            $(".gameBox").append(`
+            <h2 class="text-center">Blast! You've cracked my Quiz!</h2>
+            <h2 class="text-center">I think I know who Batman's secret identity is!</h2>
+            <h2 class="text-center">It must be you! With all you know about you know who.</h2>
+            <br>
+            <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-outline-dark btn-lg resetButton">Click to Reset Game!</button>
+            </div>
+            `);
+            //Button Click Event to Reset the Game
+            $(".resetButton").click(function () {
+                location.reload();
+            });
+        } else {
+            $(".gameBox").append(`
+            <h2 class="text-center">I, the Riddler, have won, there's nothing you can do!</h2>
+            <h2 class="text-center">Would have expected more from a Batman fan like you!</h2>
+            <br>
+            <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-outline-dark btn-lg resetButton">Click to Reset Game!</button>
+            </div>
+            `);
+            //Button Click Event to Reset the Game
+            $(".resetButton").click(function () {
+                location.reload();
+            });
         }
-        //If the player selects incorrect answer within the time limit
-        else {
-            //Change the screen to failure screen that displays correct answer
-            alert("Wrong!");
-            //Total incorrect answers decreases in the score box
-            //Screen is displayed for 5 seconds and then next question is displayed
-            totalIncorrect++;
-            $("#incorrectCounter").text(totalIncorrect);
-            //Proceed to next question
-            getQuestion();
-        }
-    });
+    }
 }
+
+//Function for Correct Answers
+function correctAnswer() {
+    //Stop the timer from counting down past zero
+    clearInterval(intervalId);
+    //Set timer to not running
+    timeRunning = false;
+    //Reset the timer
+    timeCounter = 15;
+    //Clear the game box
+    $(".gameBox").empty();
+    //Change screen to success screen congratulating the player
+    $(".gameBox").append("<h2>" + "You're Right!" + "</h2>");
+    //Total correct answers increases in score box
+    totalCorrect++;
+    $("#correctCounter").text(totalCorrect);
+    //Proceed to next question after 5 seconds
+    var correctMessageTimeout = setTimeout(function () {
+        getQuestion();
+    }, 1000 * 5);
+}
+//Function for Incorrect Answers
+function incorrectAnswer() {
+    //Stop the timer from counting down past zero
+    clearInterval(intervalId);
+    //Set timer to not running
+    timeRunning = false;
+    //Reset the timer
+    timeCounter = 15;
+    //Clear the game box
+    $(".gameBox").empty();
+    //Change screen to success screen congratulating the player
+    $(".gameBox").append("<h2>" + "You're Wrong!" + "</h2>");
+    //Total correct answers increases in score box
+    totalIncorrect++;
+    $("#incorrectCounter").text(totalIncorrect);
+    //Proceed to next question after 5 seconds
+    var incorrectMessageTimeout = setTimeout(function () {
+        getQuestion();
+    }, 1000 * 5);
+}
+
+//Timer Functions
 
 //Function used to set interval
 function startCountdown() {
@@ -119,10 +184,10 @@ function startCountdown() {
     clearInterval(intervalId);
     //If the timer is not running
     if (!timeRunning) {
-    //Run the countdown function every second
-    intervalId = setInterval(timerCountdown, 1000);
-    //Set the timer to running
-    timeRunning = true;
+        //Run the countdown function every second
+        intervalId = setInterval(timerCountdown, 1000);
+        //Set the timer to running
+        timeRunning = true;
     }
 }
 
@@ -155,10 +220,10 @@ function timesUp() {
     timeRunning = false;
     //Reset the timer
     timeCounter = 15;
-    //Move on to the next question after 10 seconds
-    var messageTimeout = setTimeout(function() {
+    //Move on to the next question after 5 seconds
+    var timesUpMessageTimeout = setTimeout(function () {
         getQuestion();
-    }, 1000 * 10);
+    }, 1000 * 5);
 }
 
 //The game won't run until the document is ready
