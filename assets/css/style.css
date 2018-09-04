@@ -1,3 +1,33 @@
 body {
     background-image: url("../images/background.jpg");
 }
+.heading {
+    color: #69497a;
+    font-weight: bold;
+    font-family: 'Slackey', cursive;
+}
+.subHeading, .message {
+    color: #fefefe;
+    font-family: 'Slackey', cursive;
+}
+.timer {
+    background-color: #6c757d;
+    color: #fff200;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bolder;    
+}
+.question {
+    background-color: #69497a;
+    color: #fefefe;
+    font-family: 'Slackey', cursive;
+}
+.startButton, .choice, .resetButton {
+    font-size: 2rem;
+    background-color: #69497a;
+    color: #fefefe;
+        font-family: 'Slackey', cursive;
+}
+.scoreCard {
+    background-color: #fff200;
+    font-family: 'Montserrat', sans-serif;
+}

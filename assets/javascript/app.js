@@ -6,7 +6,7 @@ var questionsArray = [{
     a: "Dick Grayson",
     b: "Damian Wayne",
     c: "Tim Drake",
-    answer: "Jacob Todd"
+    answer: "Jaden Todd"
 }, {
     question: "Four men who act, only three played The Bat. Which actor did not?",
     a: "Michael Keaton",
@@ -105,28 +105,29 @@ var timeRunning = false;
 //Function used to get a question from our array
 function getQuestion() {
     if (questionsLeft > 0) {
+        $(".gameBox").css("background-color", "#0c6642");
         $(".gameBox").empty();
         grabbedQuestion = questionsArray.shift();
         console.log(grabbedQuestion);
         $(".gameBox").append(`
-    <div class="text-center timer">
+    <div class="text-center rounded border border-light timer">
         <h2>Time Remaining: </h2> 
     </div>
-    <div class="text-center mb-4 question">
+    <div class="text-center mt-4 mb-4 p-3 rounded border border-light question">
         <h2>${grabbedQuestion.question}</h2>
     </div>
     <div class="row options">
         <div class="col-md-12 text-center mb-4">
-        <button type="button" class="btn btn-lg btn-outline-dark">${grabbedQuestion.a}</button>
+        <button type="button" class="btn btn-lg btn-outline-light choice">${grabbedQuestion.a}</button>
         </div>
         <div class="col-md-12 text-center mb-4">
-        <button type="button" class="btn btn-lg btn-outline-dark">${grabbedQuestion.b}</button>
+        <button type="button" class="btn btn-lg btn-outline-light choice">${grabbedQuestion.b}</button>
         </div>
         <div class="col-md-12 text-center mb-4">
-        <button type="button" class="btn btn-lg btn-outline-dark">${grabbedQuestion.c}</button>
+        <button type="button" class="btn btn-lg btn-outline-light choice">${grabbedQuestion.c}</button>
         </div>
         <div class="col-md-12 text-center mb-4">
-        <button type="button" class="btn btn-lg btn-outline-dark">${grabbedQuestion.answer}</button>
+        <button type="button" class="btn btn-lg btn-outline-light choice">${grabbedQuestion.answer}</button>
         </div>
     </div>
     `);
@@ -158,16 +159,17 @@ function getQuestion() {
             batmanTheme.currentTime = 0;
             batmanSuccess.play();
             $(".gameBox").append(`
-            <h2 class="text-center">Blast! You've cracked my Quiz!</h2>
-            <h2 class="text-center">I think I know who Batman's secret identity is!</h2>
-            <h2 class="text-center">It must be you! With all you know about you know who.</h2>
+            <h2 class="text-center message">Blast! You've cracked my Quiz!</h2>
+            <h2 class="text-center message">I think I know who Batman's secret identity is!</h2>
+            <h2 class="text-center message">It must be you! With all you know about you know who.</h2>
             <br>
             <div class="col-md-12 text-center">
-            <button type="button" class="btn btn-outline-dark btn-lg resetButton">Click to Reset Game!</button>
+            <button type="button" class="btn btn-outline-light btn-lg resetButton">Click to Reset Game!</button>
             </div>
             `);
             //Button Click Event to Reset the Game
             $(".resetButton").click(function () {
+                buttonClick.play();
                 location.reload();
             });
         } else {
@@ -175,15 +177,16 @@ function getQuestion() {
             batmanTheme.currentTime = 0;
             riddlerSuccess.play();
             $(".gameBox").append(`
-            <h2 class="text-center">I, the Riddler, have won, there's nothing you can do!</h2>
-            <h2 class="text-center">Would have expected more from a Batman fan like you!</h2>
+            <h2 class="text-center message">I, the Riddler, have won, there's nothing you can do!</h2>
+            <h2 class="text-center message">Would have expected more from a Batman fan like you!</h2>
             <br>
             <div class="col-md-12 text-center">
-            <button type="button" class="btn btn-outline-dark btn-lg resetButton">Click to Reset Game!</button>
+            <button type="button" class="btn btn-outline-light btn-lg resetButton">Click to Reset Game!</button>
             </div>
             `);
             //Button Click Event to Reset the Game
             $(".resetButton").click(function () {
+                buttonClick.play();
                 location.reload();
             });
         }
@@ -202,10 +205,10 @@ function correctAnswer() {
     $(".gameBox").empty();
     //Change screen to success screen congratulating the player
     $(".gameBox").append(`
-    <h2 class="text-center">Curses, You're Right!</h2>
+    <h2 class="text-center message">Curses, You're Right!</h2>
     <div class="row">
         <div class="col-md-12 text-center">
-            <img src="assets/images/right-answer.gif" class="img-fluid" alt="Right Answer Batman">
+            <img src="assets/images/right-answer.gif" class="img-fluid rounded" alt="Right Answer Batman">
         </div>
     </div>
     `);
@@ -229,14 +232,14 @@ function incorrectAnswer() {
     $(".gameBox").empty();
     //Change screen to success screen congratulating the player
     $(".gameBox").append(`
-    <h2 class="text-center">You Fool! You Answered Wrong!</h2>
+    <h2 class="text-center message">You Fool! You Answered Wrong!</h2>
     <div class="row">
         <div class="col-md-12 text-center">
-            <img src="assets/images/wrong-answer.gif" class="img-fluid" alt="Wrong Answer Riddler">
+            <img src="assets/images/wrong-answer.gif" class="img-fluid rounded" alt="Wrong Answer Riddler">
         </div>
     </div>
     <div class="row mt-5">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center message">
             <h3>The Correct Answer Was: ${grabbedQuestion.answer}</h3>
         </div>
     </div>
@@ -297,14 +300,14 @@ function timesUp() {
     $(".gameBox").empty();
     //Display the times up message
     $(".gameBox").append(`
-    <h2 class="text-center">Time's Up! But Don't Worry, Things are Looking Up!</h2>
+    <h2 class="text-center message">Time's Up! But Don't Worry, Things are Looking Up!</h2>
     <div class="row">
         <div class="col-md-12 text-center">
-            <img src="assets/images/times-up.gif" class="img-fluid" alt="Times Up Riddler">
+            <img src="assets/images/times-up.gif" class="img-fluid rounded" alt="Times Up Riddler">
         </div>
     </div>
     <div class="row mt-5">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center message">
             <h3>The Correct Answer Was: ${grabbedQuestion.answer}</h3>
         </div>
     </div>
@@ -327,7 +330,7 @@ function timesUp() {
 $(document).ready(function () {
     //If questions left is greater than 0, keep playing. Else, end the game
     //The game begins when the start button is clicked
-    $("#startButton").click(function () {
+    $(".startButton").click(function () {
         buttonClick.play();
         isBeingPlayed = true;
         console.log("Are we playing the game? " + isBeingPlayed);
