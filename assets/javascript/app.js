@@ -6,61 +6,71 @@ var questionsArray = [{
     a: "Dick Grayson",
     b: "Damian Wayne",
     c: "Tim Drake",
-    answer: "Jaden Todd"
+    answer: "Jaden Todd",
+    explanation: "Tricky question...Jaden Todd was not the name of one of Batman's Robins, but Jason Todd was!"
 }, {
     question: "Four men who act, only three played The Bat. Which actor did not?",
     a: "Michael Keaton",
     b: "Christian Bale",
     c: "Adam West",
-    answer: "Keanu Reeves"
+    answer: "Keanu Reeves",
+    explanation: "Though Keanu has played some tough characters, he has never played Batman. Sure looks like he could though!"
 }, {
     question: "When Batman defeats a foe, where do the most twisted ones go?",
     a: "Gotham Asylum",
     b: "Wayne Asylum",
     c: "Darkwing Asylum",
-    answer: "Arkham Asylum"
+    answer: "Arkham Asylum",
+    explanation: "Arkham Asylum is a psychiatric hospital in Gotham City that houses the criminally insane."
 }, {
     question: "Everyone knows the tragic fate of the Waynes, but do you remember the parents' names?",
     a: "George and Elaine Wayne",
     b: "Howard and Maria Wayne",
     c: "Harvey and Rachel Wayne",
-    answer: "Thomas and Martha Wayne"
+    answer: "Thomas and Martha Wayne",
+    explanation: "Dr. Thomas Wayne was a gifted physician in addition to owning Wayne Enterprises. His wife Martha was born into one of Gotham's richest families, the Kanes."
 }, {
     question: "What alias would you presume, that when working undercover, Batman would assume?",
     a: "Edward Nigma",
     b: "Joe Chill",
     c: "Carmine Falcone",
-    answer: "Matches Malone"
+    answer: "Matches Malone",
+    explanation: "Matches Malone was a small-time criminal that Batman often disguised as to infiltrate Gotham's criminal underworld."
 }, {
     question: "Which weapon is one that many have used, but never by Batman, who has refused?",
     a: "Grenades",
     b: "Brass Knuckles",
     c: "Mines",
-    answer: "Guns"
+    answer: "Guns",
+    explanation: "Batman has vowed to never use a gun ever since his parents' death. He has used small mines and flash grenades, however."
 }, {
     question: "Will you get this correct? Probably not! Who is the first villain Batman ever fought?",
     a: "The Joker",
     b: "Professor Hugo Strange",
     c: "Scarecrow",
-    answer: "Doctor Death"
+    answer: "Doctor Death",
+    explanation: "In July of 1939, Doctor Death appeared as Batman's first recurring supervillain in the comics."
 },{
     question: "Batman has a canine partner that he cannot replace. What is the breed of this dog named Ace?",
     a: "Rottweiler",
     b: "Great Dane",
     c: "Husky",
-    answer: "German Shepard"
+    answer: "German Shepard",
+    explanation: "Bat-Hound was a German Shepard that Batman and Robin rescued after he had been kidnapped by counterfeiters. He became Batman's canine crime-fighting companion."
 },{
     question: "Who is the Butler on whom Batman can depend, who is also his guardian and beloved friend?",
     a: "Alfred Hitchcock",
     b: "Alfred Tennyson",
     c: "Alfred Binet",
-    answer: "Alfred Pennyworth"
+    answer: "Alfred Pennyworth",
+    explanation: "Batman's butler Alfred's family name is Pennyworth. The other three Alfreds are a poet, a psychologist, and a director."
 },{
     question: "One of these nicknames does not belong. If you called Batman by this name, you would be wrong.",
     a: "The Caped Crusader",
     b: "The Dark Knight",
     c: "The World's Greatest Detective",
-    answer: "The Sultan of Swat"
+    answer: "The Sultan of Swat",
+    explanation: "The Sultan of Swat is a nickname that belongs to Babe Ruth, a former baseball player for the New York Yankees in the 1920s and '30s."
 }];
 
 console.log(questionsArray);
@@ -210,6 +220,9 @@ function correctAnswer() {
         <div class="col-md-12 text-center">
             <img src="assets/images/right-answer.gif" class="img-fluid rounded" alt="Right Answer Batman">
         </div>
+        <div class="col-md-12 text-center mt-3 border border-light rounded explanation">
+            <h3>${grabbedQuestion.explanation}</h3>
+        </div>
     </div>
     `);
     //Total correct answers increases in score box
@@ -241,6 +254,9 @@ function incorrectAnswer() {
     <div class="row mt-5">
         <div class="col-md-12 text-center message">
             <h3>The Correct Answer Was: ${grabbedQuestion.answer}</h3>
+        </div>
+        <div class="col-md-12 text-center mt-3 border border-light rounded explanation">
+            <h3>${grabbedQuestion.explanation}</h3>
         </div>
     </div>
     `);
@@ -309,6 +325,9 @@ function timesUp() {
     <div class="row mt-5">
         <div class="col-md-12 text-center message">
             <h3>The Correct Answer Was: ${grabbedQuestion.answer}</h3>
+        </div>
+        <div class="col-md-12 text-center mt-3 p-4 border border-light rounded explanation">
+            <h3>${grabbedQuestion.explanation}</h3>
         </div>
     </div>
     `);
