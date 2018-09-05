@@ -104,7 +104,7 @@ riddlerSuccess.loop = true;
 //Global Variables for the Timer
 
 //We establish a variable that will act as a counter that will be decremented on countdown
-var timeCounter = 15;
+var timeCounter = 20;
 //We declare a variable that will hold the setInterval that runs the timer
 var intervalId;
 //We set this variable to false to prevent the timer from being sped up
@@ -210,7 +210,7 @@ function correctAnswer() {
     //Set timer to not running
     timeRunning = false;
     //Reset the timer
-    timeCounter = 15;
+    timeCounter = 20;
     //Clear the game box
     $(".gameBox").empty();
     //Change screen to success screen congratulating the player
@@ -240,7 +240,7 @@ function incorrectAnswer() {
     //Set timer to not running
     timeRunning = false;
     //Reset the timer
-    timeCounter = 15;
+    timeCounter = 20;
     //Clear the game box
     $(".gameBox").empty();
     //Change screen to success screen congratulating the player
@@ -338,7 +338,7 @@ function timesUp() {
     //Set timer to not running
     timeRunning = false;
     //Reset the timer
-    timeCounter = 15;
+    timeCounter = 20;
     //Move on to the next question after 10 seconds
     var timesUpMessageTimeout = setTimeout(function () {
         getQuestion();
@@ -353,10 +353,31 @@ $(document).ready(function () {
         buttonClick.play();
         isBeingPlayed = true;
         console.log("Are we playing the game? " + isBeingPlayed);
+        $(".gameBox").empty();
+        $(".gameBox").append(`
+        <div class="border border-dark rounded p-4 howToPlay">
+            <h2 class="text-center rounded border border-light p-3 instructionHeading">How to Play</h2>
+            <p class="text-center text-justify subHeading">
+                Prepare to feel puzzled!
+            </p>
+            <p class="text-center text-justify subHeading">
+                You'll have 20 seconds to answer each of my 10 questions. Fail to answer correctly, or within the time limit, and you will be penalized!
+            </p>
+            <p class="text-center text-justify subHeading">
+                And if by some chance you get lucky and answer at least 7 correctly, you win! But let's not get your hopes up!
+            </p>
+            <p class="text-center text-justify subHeading">
+                Sit tight! My mind boggling trivia challenge will begin shortly!
+            </p>
+        </div>
+        `)
+        //Wait 30 seconds to start the game to allow time to read the instructions
+        var startGameTimeout = setTimeout(function() {
         //Play game audio
         batmanTheme.play();
         //Show the score box now that the game has started
         $(".scoreBox").show();
         getQuestion();
+        }, 1000 * 30);
     });
 });
